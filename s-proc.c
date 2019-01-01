@@ -29,9 +29,9 @@ static void croak(const char *msg) {
  */
 static void usage(const char *prgnam) {
     fprintf(stderr, "\nExecute code : %s -e <file-containing-shellcode>\n",
-	    prgnam);
+            prgnam);
     fprintf(stderr, "Convert code : %s -p <file-containing-shellcode> \n\n",
-	    prgnam);
+            prgnam);
     fflush(stderr);
     exit(1);
 }
@@ -68,30 +68,30 @@ int main(int argc, char **argv) {
     if (fclose(fp)) barf("failed to close file");
 
     while ((arg = getopt(argc, argv, "e:p:")) != -1) {
-	switch (arg) {
-	    case 'e':
-		croak("Calling code ...");
-		fptr = (void (*)(void))code;
-		(*fptr)();
-		break;
-	    case 'p':
-		printf("\n\nchar shellcode[] =\n");
-		l = m;
-		for (i = 0; i < flen; ++i) {
-		    if (l >= m) {
-			if (i) printf("\"\n");
-			printf("\t\"");
-			l = 0;
-		    }
-		    ++l;
-		    printf("\\x%02x", ((unsigned char *)code)[i]);
-		}
-		printf("\";\n\n\n");
+        switch (arg) {
+            case 'e':
+                croak("Calling code ...");
+                fptr = (void (*)(void))code;
+                (*fptr)();
+                break;
+            case 'p':
+                printf("\n\nchar shellcode[] =\n");
+                l = m;
+                for (i = 0; i < flen; ++i) {
+                    if (l >= m) {
+                        if (i) printf("\"\n");
+                        printf("\t\"");
+                        l = 0;
+                    }
+                    ++l;
+                    printf("\\x%02x", ((unsigned char *)code)[i]);
+                }
+                printf("\";\n\n\n");
 
-		break;
-	    default:
-		usage(argv[0]);
-	}
+                break;
+            default:
+                usage(argv[0]);
+        }
     }
 
     return 0;
